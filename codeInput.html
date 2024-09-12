@@ -55,9 +55,10 @@
                     alert("用戶未登入");
                     liff.login();
                 } else {
-                   // alert("用戶已登入");
+                    alert("用戶已登入");
                 }
             }).catch((err) => {
+                alert("初始化失敗:" + err);
                 console.log('初始化失敗', err);
             });
         }
@@ -117,7 +118,7 @@
         }
         
         $(document).ready(function () {
-            initializeLiff('2004227013-nwvNwYY2');  //接收傳遞的 liffid 參數
+            initializeLiff('2004227013-LVl43rrZ');  //接收傳遞的 liffid 參數
             $('#sure').click(function (e) {  //按下確定鈕
                 pushMsg($('#codeInput').val());
             });
