@@ -63,6 +63,19 @@
             });
         }
 
+        function showConfirm() {
+            // 顯示確認框
+            let result = confirm("確定要執行這個動作嗎？");
+
+            // 按下確定時的動作
+            if (result) {
+                alert("你選擇了確定，執行動作！");
+                // 在這裡可以放執行的代碼
+                liff.closeWindow();
+            } else {
+                alert("你取消了動作。");
+            }
+
         function sendLineMsg(msg_text) {
             alert(msg_text);
             liff.sendMessages([
@@ -72,8 +85,9 @@
                  },
                ])
                .then(() => {
-                 console.log("message sent");
-                 alert("message sent");
+                 //console.log("message sent");
+                 //alert("message sent");
+                 showConfirm();
                })
                .catch((err) => {
                  console.log("error", err);
