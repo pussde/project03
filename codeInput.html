@@ -36,7 +36,7 @@
         </div>
     </div>
 
-    <script src="https://static.line-scdn.net/liff/edge/2.1/sdk.js"></script>
+    <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
     <script>
         function initializeLiff(myLiffId) {
             liff.init({
@@ -122,10 +122,12 @@
             //sendShareMsg(proom);
             //liff.closeWindow();
         }
+
+        initializeLiff('2004227013-LVl43rrZ');  //接收傳遞的 liffid 參數
         
         $(document).ready(function () {
             alert("ready");
-            initializeLiff('2004227013-LVl43rrZ');  //接收傳遞的 liffid 參數
+            //initializeLiff('2004227013-LVl43rrZ');  //接收傳遞的 liffid 參數
             $('#sure').click(function (e) {  //按下確定鈕
                 pushMsg($('#codeInput').val());
             });
