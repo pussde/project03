@@ -69,6 +69,15 @@
             }
         }
 
+        function sendLineImgMsg(msg_text) {
+            str1 = "https://i.imgur.com/AZo9p9G.jpg?" + msg_text;
+            liff.sendMessages([{
+                type: 'image',
+                originalContentUrl: str1,
+                previewImageUrl: 'https://i.imgur.com/MwS42AE.png?sender=Brown'
+            }]).catch(err => { alert(err.message) })
+        }
+
         function sendLineMsg(msg_text) {
             alert(msg_text);
             liff.sendMessages([
@@ -119,7 +128,7 @@
                 //return;
             //}
             msg = "CMD_CODE_" + code
-            sendLineMsg(msg);
+            sendLineImgMsg(msg);
             //sendShareMsg(proom);
             //liff.closeWindow();
         }
