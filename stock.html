@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>股票Notify設定</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <style>
+
+    </style>
+</head>
+
+<body>
+    <div class="row" style="margin: 10px">        
+        <div id="output"></div>
+        <div class="col-12" style="margin: 10px">
+            <label>股票代號:</label>
+            <input type="text" id="stCode" value="" class="form-control" />
+            <br />
+            <label>通知頻率</label>
+            <select id="duration" class="form-control">
+                <option value="0min" selected>不通知</option>
+                <option value="60min">每60分鐘</option>
+                <option value="15min">每15分鐘</option>
+                <option value="30min">每30分鐘</option>
+            </select>
+            <label for="close_2min">僅收盤前最後下單前3分鐘(13:22/13:42):</label>
+            <input type="checkbox" id="close_2min" value="no" class="form-control" />
+            <br />
+            <label for="big">大盤:</label>
+            <input type="checkbox" id="big" value="no" class="form-control" />
+            <br />
+            <label for="futures">台指期:</label>
+            <input type="checkbox" id="futures" value="no" class="form-control" />
+            <br />
+            <button class="btn btn-success btn-block" id="sure">確定</button>
+        </div>
+    </div>
+
+    <script src="https://static.line-scdn.net/liff/edge/2.1/sdk.js"></script>
+    <script>
+        var user_id;
+        var name;
+        var picUrl;
+        function initializeLiff(myLiffId) {
+            liff.init({
+                liffId: myLiffId,
+                withLoginOnExternalBrowser: true, // Enable automatic login process
+            }).then(() => {
+                if (!liff.isLoggedIn()) {
+                    alert("用戶未登入");
+                    liff.login();
+                } else {
+                    //alert("用戶已登入");
+                }
+            }).catch((err) => {
+                console.log('初始化失敗', err);
+            });
+        }
+
+        function showConfirm() {
+            // 顯示確認框
+            let result = confirm("確定要送出嗎？");
+
+            // 按下確定時的動作
+            if (result) {
+                //alert("你選擇了確定，執行動作！");
+                liff.closeWindow();
+            } else {
+                alert("取消");
+            }
+        }
+
+        function sendLineImgMsg(msg_text) {
+            str1 = "https://i.imgur.com/AZo9p9G.jpg?" + msg_text;
+            liff.sendMessages([{
+                type: 'image',
+                originalContentUrl: str1,
+                previewImageUrl: str1
+            }]).then(() => {
+                 //console.log("message sent");
+                 //alert("message sent");
+                 showConfirm();
+               })
+              .catch(err => { alert(err.message) })
+        }
+
+        function sendLineMsg(msg_text) {
+            alert(msg_text);
+            liff.sendMessages([
+                 {
+                   type: "text",
+                   text: msg_text,
+                 },
+               ])
+               .then(() => {
+                 console.log("message sent");
+                 alert("message sent");
+               })
+               .catch((err) => {
+                 console.log("error", err);
+                 alert(err);
+               });
+
+        }
+
+        function pushMsg(stCode, duration, close_2min, big, futures) {
+            //alert(code);
+            msg = "CMD_STOCK_" + stCode + "_" + duration + "_" + close_2min + "_" + big + "_" + futures
+            sendLineImgMsg(msg);
+        }
+
+        $(document).ready(function () {
+            //alert("ready");
+            initializeLiff('2004227013-LVl43rrZ');  //接收傳遞的 liffid 參數
+            $('#sure').click(function (e) {  //按下確定鈕
+                pushMsg($('#stCode').val(), $('#duration').val(), $('#close_2min').val(), $('#big').val(), $('#futures').val());
+            });
+        });
+
+    </script>
+</body>
+
+</html>
