@@ -27,6 +27,10 @@
                 <option value="30min">每30分鐘</option>
             </select>
             <hr> <!-- 添加分隔線 -->
+            <label>股價到價通知:</label>
+            <input type="text" id="stPrice" value="0" class="form-control" />
+            <br />
+            <hr> <!-- 添加分隔線 -->
             <label for="close_2min">僅收盤前最後下單前3分鐘(13:22/13:42):</label>
             <input type="checkbox" id="close_2min" class="form-control" />
             <br />
@@ -37,6 +41,10 @@
             <hr> <!-- 添加分隔線 -->
             <label for="futures">台指期:</label>
             <input type="checkbox" id="futures" class="form-control" />
+            <br />
+            <hr> <!-- 添加分隔線 -->
+            <label>期貨到價通知:</label>
+            <input type="text" id="fuPrice" value="0" class="form-control" />
             <br />
             <hr> <!-- 添加分隔線 -->
             <button class="btn btn-success btn-block" id="sure">確定</button>
@@ -110,13 +118,13 @@
 
         }
 
-        function pushMsg(stCode, duration, close_2min, big, futures) {
+        function pushMsg(stCode, duration, stPrice, close_2min, big, futures, fuPrice) {
             //alert(code);
             // 判斷 checkbox 是否被勾選
             var close_2min = document.getElementById("close_2min").checked;
             var big = document.getElementById("big").checked;
             var futures = document.getElementById("futures").checked;
-            msg = "CMD_STOCK_" + stCode + "_" + duration + "_" + close_2min + "_" + big + "_" + futures
+            msg = "CMD_STOCK_" + stCode + "_" + duration + "_" + stPrice + "_" + close_2min + "_" + big + "_" + futures + "_" + fuPrice
             sendLineImgMsg(msg);
         }
 
@@ -124,7 +132,7 @@
             //alert("ready");
             initializeLiff('2004227013-XvYAOGG0');  //接收傳遞的 liffid 參數
             $('#sure').click(function (e) {  //按下確定鈕
-                pushMsg($('#stCode').val(), $('#duration').val(), $('#close_2min').val(), $('#big').val(), $('#futures').val());
+                pushMsg($('#stCode').val(), $('#duration').val(), $('#stPrice').val(), $('#close_2min').val(), $('#big').val(), $('#futures').val(), $('#fuPrice').val());
             });
         });
 
